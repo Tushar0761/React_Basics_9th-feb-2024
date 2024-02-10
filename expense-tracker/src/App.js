@@ -1,23 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import ExpenseCard from "./components/Expenses/ExpenseCard";
+import Container from "./components/UI/Container";
 
 function App() {
+  const expensesArray = [
+    { Name: "Food", Date: "2nd feb", Money: 100 },
+    { Name: "Bottle", Date: "2nd Jan", Money: 50 },
+    { Name: "Phone", Date: "5th feb", Money: 10000 },
+    { Name: "Cloths", Date: "10th feb", Money: 500 },
+    { Name: "Cloths", Date: "10th feb", Money: 5500 },
+    { Name: "Cloths", Date: "10th feb", Money: 5500 },
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" id="App">
+      <Container>
+        {expensesArray.map((e) => (
+          <ExpenseCard expense={e}></ExpenseCard>
+        ))}
+      </Container>
     </div>
   );
 }
