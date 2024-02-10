@@ -1,3 +1,4 @@
+import ExpenseForm from "./components/ExpenseForm/ExpenseForm";
 import ExpenseCard from "./components/Expenses/ExpenseCard";
 import Container from "./components/UI/Container";
 
@@ -13,6 +14,9 @@ function App() {
 
   return (
     <div className="App" id="App">
+      <Container>
+        <ExpenseForm />
+      </Container>
       <Container>
         {expensesArray.map((e) => (
           <ExpenseCard expense={e}></ExpenseCard>
