@@ -12,10 +12,16 @@ function App() {
     { Name: "Cloths", Date: "10th feb", Money: 5500 },
   ];
 
+  function getNewExpense(newExpense) {
+    console.log(newExpense);
+    console.log(expensesArray);
+    expensesArray.unshift(newExpense);
+  }
+
   return (
     <div className="App" id="App">
       <Container>
-        <ExpenseForm />
+        <ExpenseForm sendNewExpense={getNewExpense} />
       </Container>
       <Container>
         {expensesArray.map((e) => (
