@@ -1,32 +1,26 @@
+import { useState } from "react";
 import ExpenseForm from "./components/ExpenseForm/ExpenseForm";
-import ExpenseCard from "./components/Expenses/ExpenseCard";
 import Container from "./components/UI/Container";
+import ExpenseContainer from "./components/Expenses/ExpenseContainer";
+
+const appClasses = `d-flex flex-column bg-warning-subtle `;
 
 function App() {
-  const expensesArray = [
-    { Name: "Food", Date: "2nd feb", Money: 100 },
-    { Name: "Bottle", Date: "2nd Jan", Money: 50 },
-    { Name: "Phone", Date: "5th feb", Money: 10000 },
-    { Name: "Cloths", Date: "10th feb", Money: 500 },
-    { Name: "Cloths", Date: "10th feb", Money: 5500 },
-    { Name: "Cloths", Date: "10th feb", Money: 5500 },
-  ];
+  const [expenseState, setExpenseState] = useState([]);
 
   function getNewExpense(newExpense) {
-    console.log(newExpense);
-    console.log(expensesArray);
-    expensesArray.unshift(newExpense);
+    setExpenseState((prevState) => {
+      return [newExpense, ...expenseState];
+    });
   }
 
   return (
-    <div className="App" id="App">
+    <div className={appClasses} style={{ minHeight: 100 + "vh" }}>
       <Container>
         <ExpenseForm sendNewExpense={getNewExpense} />
       </Container>
       <Container>
-        {expensesArray.map((e) => (
-          <ExpenseCard expense={e}></ExpenseCard>
-        ))}
+        <ExpenseContainer expenseArray={expenseState} />
       </Container>
     </div>
   );

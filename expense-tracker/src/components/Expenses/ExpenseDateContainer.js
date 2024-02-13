@@ -2,18 +2,22 @@ import React from "react";
 
 export default function ExpenseDateContainer(props) {
   const classes = `
-     d-flex col-2
-     flex-column
-     border border-dark
-text-center rounded bg-info-subtle
-  fs-5  me-2 text-dark`;
+     d-flex col-4 col-md-3 col-lg-2
+     flex-column 
+border border-secondary border-2
+     text-center rounded 
+  fs-5`;
 
-  const date = props.date.split(" ");
+  //Tue Mar 05 2024
+
+  const dateArray = props.date.split(" ");
 
   return (
     <div className={classes}>
-      <span>{date[0].trim()}</span>
-      <span>{date[1].trim()}</span>
+      <span>
+        {dateArray[2]}-{dateArray[1]}
+      </span>
+      <span>{dateArray[3]}</span>
     </div>
   );
 }
