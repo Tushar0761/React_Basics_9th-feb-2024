@@ -48,6 +48,7 @@ export default function ExpenseForm(props) {
 
   function getObject() {
     return {
+      id: new Date().getTime(),
       Name: userInput.nameInput,
       Date: new Date(userInput.dateInput).toDateString(),
       Money: userInput.amountInput,
@@ -62,11 +63,35 @@ export default function ExpenseForm(props) {
     });
   }
 
+  function saveToLocalStorage(expense) {
+    let expenseArray = JSON.parse(localStorage.getItem("Expense_Array")) || [];
+    console.log(expenseArray);
+
+    if (expenseArray.length === 0) {
+      expenseArray = [expense];
+      console.log("from if ");
+    } else {
+      expenseArray.unshift(expense);
+    }
+    localStorage.setItem("Expense_Array", JSON.stringify(expenseArray));
+  }
+
   const submitHandler = (event) => {
     event.preventDefault();
 
+    if (
+      userInput.amountInput === "" ||
+      userInput.dateInput === "" ||
+      userInput.nameInput === ""
+    ) {
+      alert("Please provide all data.");
+      return false;
+    }
+
     let newExpense = getObject();
     props.sendNewExpense(newExpense);
+
+    saveToLocalStorage(newExpense);
 
     clearForm();
   };

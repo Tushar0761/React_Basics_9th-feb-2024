@@ -2,7 +2,7 @@ import React from "react";
 
 export default function ExpenseDateContainer(props) {
   const classes = `
-     d-flex col-4 col-md-3 col-lg-2
+     d-flex col-3 col-md-2 col-lg-1
      flex-column 
 border border-secondary border-2
      text-center rounded 

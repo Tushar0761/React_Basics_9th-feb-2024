@@ -6,7 +6,30 @@ import ExpenseContainer from "./components/Expenses/ExpenseContainer";
 const appClasses = `d-flex flex-column bg-warning-subtle `;
 
 function App() {
-  const [expenseState, setExpenseState] = useState([]);
+  let expenseArray = JSON.parse(localStorage.getItem("Expense_Array")) || [];
+
+  const [expenseState, setExpenseState] = useState(expenseArray);
+
+  function deleteExpense(id) {
+    let confirmation = window.confirm("Are you sure to delete this item?");
+    if (!confirmation) {
+      return;
+    }
+    expenseState.forEach((expense, index) => {
+      if (expense.id === id) {
+        setExpenseState((prevState) => {
+          const updatedExpenses = prevState.filter(
+            (expense) => expense.id !== id
+          );
+          localStorage.setItem(
+            "Expense_Array",
+            JSON.stringify(updatedExpenses)
+          );
+          return updatedExpenses;
+        });
+      }
+    });
+  }
 
   function getNewExpense(newExpense) {
     setExpenseState((prevState) => {
@@ -20,7 +43,10 @@ function App() {
         <ExpenseForm sendNewExpense={getNewExpense} />
       </Container>
       <Container>
-        <ExpenseContainer expenseArray={expenseState} />
+        <ExpenseContainer
+          expenseArray={expenseState}
+          deleteFunction={deleteExpense}
+        />
       </Container>
     </div>
   );

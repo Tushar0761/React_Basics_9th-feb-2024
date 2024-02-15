@@ -18,15 +18,26 @@ export default function ExpenseContainer(props) {
 
   let expenseContent;
 
+  let total = 0;
+  if (filteredExpense.length !== 0) {
+    filteredExpense.forEach((expense) => {
+      total += Number(expense.Money);
+    });
+  }
+
   if (props.expenseArray.length !== 0) {
     expenseContent = (
       <>
-        <FilterCard selectedYear={getSelectedYear} />
+        <FilterCard selectedYear={getSelectedYear} total={total} />
         {filteredExpense.length === 0 ? (
           <h2 className="text-center">No Expenses for {selectedYear}</h2>
         ) : (
           filteredExpense.map((e, index) => (
-            <ExpenseCard expense={e} key={index}></ExpenseCard>
+            <ExpenseCard
+              expense={e}
+              key={index}
+              deleteFunction={props.deleteFunction}
+            ></ExpenseCard>
           ))
         )}
       </>
