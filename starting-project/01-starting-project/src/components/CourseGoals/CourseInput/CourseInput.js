@@ -20,14 +20,15 @@ const CourseInput = (props) => {
       return;
     }
     setIsValid(true);
+    setEnteredValue("");
     props.onAddGoal(enteredValue);
   };
 
-  let formErrorClass = `border-danger bg-danger-subtle`;
+  let formErrorClass = `border-danger bg-danger-subtle shadow`;
 
   return (
     <form onSubmit={formSubmitHandler}>
-      <div className={`form-control `}>
+      <div className={`form-control ${isValid ? "" : formErrorClass}`}>
         <label>Course Goal</label>
         <input
           type="text"
@@ -35,6 +36,8 @@ const CourseInput = (props) => {
             ({ color: isValid ? "black" : "red" },
             { borderColor: isValid ? "black" : "red" })
           }
+          value={enteredValue}
+          placeholder={!isValid && "Please Enter Goal"}
           onChange={goalInputChangeHandler}
         />
       </div>
