@@ -8,7 +8,7 @@ export default function ExpenseContainer(props) {
   // const selectedYearRef = useRef("");
 
   function getSelectedYear(year) {
-    // setSelectedYear(year);
+    setSelectedYear(year);
     // selectedYearRef.current.value = year;
   }
 
