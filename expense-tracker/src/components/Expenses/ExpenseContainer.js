@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ExpenseCard from "./ExpenseCard";
 import FilterCard from "../ExpenseForm/FilterCard";
 
 export default function ExpenseContainer(props) {
   const [selectedYear, setSelectedYear] = useState("");
 
+  // const selectedYearRef = useRef("");
+
   function getSelectedYear(year) {
-    setSelectedYear(year);
+    // setSelectedYear(year);
+    // selectedYearRef.current.value = year;
   }
 
   let filteredExpense = props.expenseArray.filter((e) => {
@@ -27,7 +30,7 @@ export default function ExpenseContainer(props) {
 
   if (props.expenseArray.length !== 0) {
     expenseContent = (
-      <>
+      <React.Fragment>
         <FilterCard selectedYear={getSelectedYear} total={total} />
         {filteredExpense.length === 0 ? (
           <h2 className="text-center">No Expenses for {selectedYear}</h2>
@@ -40,7 +43,7 @@ export default function ExpenseContainer(props) {
             ></ExpenseCard>
           ))
         )}
-      </>
+      </React.Fragment>
     );
   } else {
     expenseContent = <h2 className="text-center">No Expenses to show</h2>;

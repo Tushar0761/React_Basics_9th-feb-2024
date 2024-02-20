@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 export default function FilterCard(props) {
-  const [selectedYear, setSelectedYear] = useState("Select one");
+  // const [selectedYear, setSelectedYear] = useState("Select one");
 
-  function yearChangeHandler(event) {
-    setSelectedYear(event.target.value);
-    props.selectedYear(event.target.value);
+  //-----------------Day 8
+  const selectedYearRef = useRef("Select one");
+
+  function yearChangeHandler() {
+    //   setSelectedYear(event.target.value);
+    props.selectedYear(selectedYearRef.current.value);
   }
 
   return (
@@ -16,8 +19,9 @@ export default function FilterCard(props) {
           className="form-select"
           name="selectYear"
           id="selectYear"
+          ref={selectedYearRef}
           onChange={yearChangeHandler}
-          value={selectedYear}
+          // value={selectedYear}
         >
           <option value="">Show All</option>
           <option value="2021">2021</option>

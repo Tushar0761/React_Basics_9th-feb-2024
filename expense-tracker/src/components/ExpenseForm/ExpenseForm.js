@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 export default function ExpenseForm(props) {
   let nameClasses = "form-control mb-1 border border-dark shadow  ";
@@ -7,6 +7,11 @@ export default function ExpenseForm(props) {
   let numberClasses = "form-control ms-1 border border-dark shadow";
   let btnClasses = "btn btn-dark";
   let btnDivClasses = "d-flex justify-content-center mt-1";
+
+  //----------------------Day 8
+  const expenseNameRef = useRef("");
+  const expenseDateRef = useRef("");
+  const expenseAmountRef = useRef("");
 
   //   ____ approach 1 for managing states
 
@@ -24,6 +29,8 @@ export default function ExpenseForm(props) {
   //   ____ approach 2 for managing states
   //2024-02-14
 
+  // ------------------Day 8
+  /* 
   const [userInput, setUserInput] = useState({
     nameInput: "",
     dateInput: "2024-01-01",
@@ -44,23 +51,27 @@ export default function ExpenseForm(props) {
     setUserInput((prevUserInput) => {
       return { ...prevUserInput, amountInput: event.target.value };
     });
-  };
+  }; */
 
   function getObject() {
     return {
       id: new Date().getTime(),
-      Name: userInput.nameInput,
-      Date: new Date(userInput.dateInput).toDateString(),
-      Money: userInput.amountInput,
+      Name: expenseNameRef.current.value,
+      Date: new Date(expenseDateRef.current.value).toDateString(),
+      Money: expenseAmountRef.current.value,
     };
   }
 
   function clearForm() {
-    setUserInput({
+    expenseNameRef.current.value = "";
+    expenseDateRef.current.value = "";
+    expenseAmountRef.current.value = "";
+
+    /* setUserInput({
       ...userInput,
       nameInput: "",
       amountInput: "",
-    });
+    }); */
   }
 
   function saveToLocalStorage(expense) {
@@ -80,9 +91,9 @@ export default function ExpenseForm(props) {
     event.preventDefault();
 
     if (
-      userInput.amountInput === "" ||
-      userInput.dateInput === "" ||
-      userInput.nameInput === ""
+      expenseNameRef.current.value === "" ||
+      expenseDateRef.current.value === "" ||
+      expenseAmountRef.current.value === ""
     ) {
       alert("Please provide all data.");
       return false;
@@ -105,22 +116,25 @@ export default function ExpenseForm(props) {
         className={nameClasses}
         type="text"
         placeholder="Expense Name"
-        value={userInput.nameInput}
-        onChange={nameChangeHandler}
+        ref={expenseNameRef}
+        // value={userInput.nameInput}
+        // onChange={nameChangeHandler}
       />
       <div className={inputContainer}>
         <input
           className={dateClasses}
-          onChange={dateChangeHandler}
           type="Date"
-          value={userInput.dateInput}
+          ref={expenseDateRef}
+          // onChange={dateChangeHandler}
+          // value={userInput.dateInput}
         />
         <input
           className={numberClasses}
-          onChange={amountChangeHandler}
           type="Number"
           placeholder="Amount ₹"
-          value={userInput.amountInput}
+          ref={expenseAmountRef}
+          // onChange={amountChangeHandler}
+          // value={userInput.amountInput}
         />
       </div>
       <div className={btnDivClasses}>
