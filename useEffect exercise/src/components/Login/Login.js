@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
@@ -6,25 +6,32 @@ import Button from "../UI/Button/Button";
 
 const Login = (props) => {
   const [enteredEmail, setEnteredEmail] = useState("");
-  const [emailIsValid, setEmailIsValid] = useState();
+  const [emailIsValid, setEmailIsValid] = useState(false);
   const [enteredPassword, setEnteredPassword] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState();
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
+
+  useEffect(() => {
+    let id = setTimeout(() => {
+      console.log("main, validation check ");
+
+      setFormIsValid(
+        enteredPassword.trim().length > 6 && enteredEmail.includes("@")
+      );
+    }, 1000);
+
+    return () => {
+      clearTimeout(id);
+      console.log("cleanUp ,time out canel");
+    };
+  }, [enteredEmail, enteredPassword]);
 
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
-
-    setFormIsValid(
-      event.target.value.includes("@") && enteredPassword.trim().length > 6
-    );
   };
 
   const passwordChangeHandler = (event) => {
     setEnteredPassword(event.target.value);
-
-    setFormIsValid(
-      event.target.value.trim().length > 6 && enteredEmail.includes("@")
-    );
   };
 
   const validateEmailHandler = () => {
