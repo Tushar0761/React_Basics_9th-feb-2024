@@ -21,36 +21,36 @@ const Login = () => {
 
     event.target.classList.replace("btn-secondary", "btn-primary");
   }
+  const CardClasses =
+    "d-flex justify-content-center bg-light  align-items-center";
 
   return (
-    <BrowserRouter>
-      <Card className="h-100">
-        <div className="card col-lg-4 col-md-6 col-sm-8 col-12   p-2 shadow-lg">
-          <div className="btn-group">
-            <Link
-              to="./"
-              id="loginBtn"
-              className="btn btn-primary"
-              onClick={loginBtnHandler}
-            >
-              Login
-            </Link>
-            <Link
-              to="./register"
-              id="registerBtn"
-              className="btn btn-secondary"
-              onClick={registerBtnHandler}
-            >
-              Register
-            </Link>
-          </div>
-          <Routes>
-            <Route index path="/" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-          </Routes>
+    <Card className={`${CardClasses} h-100`}>
+      <div className="card col-lg-4 col-md-6 col-sm-8 col-12   p-2 shadow-lg">
+        <div className="btn-group">
+          <Link
+            to="./"
+            id="loginBtn"
+            className="btn btn-primary"
+            onClick={loginBtnHandler}
+          >
+            Login
+          </Link>
+          <Link
+            to="./register"
+            id="registerBtn"
+            className="btn btn-secondary"
+            onClick={registerBtnHandler}
+          >
+            Register
+          </Link>
         </div>
-      </Card>
-    </BrowserRouter>
+        <Routes>
+          <Route index path="/" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+        </Routes>
+      </div>
+    </Card>
   );
 };
 

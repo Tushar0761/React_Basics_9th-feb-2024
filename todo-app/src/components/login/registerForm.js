@@ -5,7 +5,7 @@ import FormInput from "../UI/FormInput";
 import { useEffect, useReducer, useState } from "react";
 
 const RegisterForm = () => {
-  const [error, setError] = useState("");
+  const [error, setError] = useState([false, ""]);
 
   const registerHandler = (e) => {
     // Validation
@@ -17,14 +17,14 @@ const RegisterForm = () => {
       !UserInputs.passwordValue ||
       !UserInputs.confirmPasswordValue
     ) {
-      setError("All fields are required");
+      setError([true, "All fields are required"]);
       return;
-    }
+    } else setError([false]);
 
     if (UserInputs.passwordValue !== UserInputs.confirmPasswordValue) {
-      setError("Password and Confirm Password must match");
+      setError([true, "Password and Confirm Password must match"]);
       return;
-    }
+    } else setError([false]);
 
     // Save data to local storage
     const userData = {
@@ -33,12 +33,24 @@ const RegisterForm = () => {
       password: UserInputs.passwordValue,
     };
 
-    localStorage.setItem("userData", JSON.stringify(userData));
+    let all_users_data =
+      JSON.parse(localStorage.getItem("all_users_data")) || [];
+
+    if (checkUserPresent(all_users_data, userData)) {
+      alert("Email is already present.");
+      return;
+    }
+
+    all_users_data.push(userData);
+
+    localStorage.setItem("all_users_data", JSON.stringify(all_users_data));
 
     alert("Registration successful!");
-
-    window.location.href = "./";
   };
+
+  function checkUserPresent(array, user) {
+    return array.find((i) => i.email === user.email) ? true : false;
+  }
 
   function reducerFn(state, action) {
     switch (action.type) {
@@ -62,7 +74,7 @@ const RegisterForm = () => {
 
   return (
     <div className="py-3 ">
-      {error && <div className="alert alert-danger">{error}</div>}
+      {error[0] && <div className="alert alert-danger">{error[1]}</div>}
       <form onSubmit={registerHandler}>
         <FormInput
           formAttr={{
@@ -111,7 +123,12 @@ const RegisterForm = () => {
           name="Confirm Password"
         ></FormInput>
 
-        <Button classes="btn btn-warning" type="submit">
+        <Button
+          attributes={{
+            className: "btn btn-warning",
+            type: "submit",
+          }}
+        >
           Register
         </Button>
       </form>

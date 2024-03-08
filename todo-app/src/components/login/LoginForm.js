@@ -22,22 +22,28 @@ const LoginForm = () => {
           emailIsValid: validateEmail(action.val),
           emailValue: action.val,
         };
+        break;
+
       case "password-input":
         return {
           ...prevState,
           passwordIsValid: validatePass(action.val),
           passwordValue: action.val,
         };
+        break;
+
       case "email-blur":
         setError([
           !prevState.emailIsValid || !prevState.passwordIsValid,
           "Please provide valid Email.",
         ]);
+        break;
       case "password-blur":
         setError([
           !prevState.emailIsValid || !prevState.passwordIsValid,
           "Please provide valid password.",
         ]);
+        break;
     }
     return prevState;
   }
@@ -56,6 +62,44 @@ const LoginForm = () => {
       setError([true, "Please provide valid Inputs."]);
       return;
     }
+
+    let all_users_data =
+      JSON.parse(localStorage.getItem("all_users_data")) || [];
+
+    if (!checkUserPresent(all_users_data, { email: state.emailValue })) {
+      alert("Email Not Found. Please Register");
+      return;
+    }
+
+    if (
+      !checkPassword(all_users_data, {
+        email: state.emailValue,
+        password: state.passwordValue,
+      })
+    ) {
+      alert("Email id and Password is wrong.");
+      return;
+    }
+
+    localStorage.setItem("User_logged_in", "1");
+
+    window.location.href = "./dashboard";
+  }
+
+  function checkUserPresent(array, user) {
+    return array.find((i) => i.email === user.email) ? true : false;
+  }
+
+  function checkPassword(array, user) {
+    let currentUser = array.find((i) => i.email === user.email);
+    console.log(currentUser);
+    console.log(user);
+    if (currentUser.password !== user.password) {
+      console.log("password did not match");
+      return false;
+    }
+    console.log("password matched");
+    return true;
   }
 
   return (
